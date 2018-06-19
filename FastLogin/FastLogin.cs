@@ -22,8 +22,12 @@ namespace FastLogin {
 		/// <summary>Adds multiple accounts to the list.</summary>
 		/// <param name="e">The account to add.</param>
 		public void AddAccountsToList(IEnumerable<Account> e) {
-			foreach (var i in e)
-				this.AddAccountToList(i);
+			if (e == null)
+				throw new ArgumentNullException(nameof(e)); //whatever screw checking each one if it's null if it's null it's also your fault :p
+
+			lock(this._listlocker) {
+				this._alts.AddRange(e);
+			}
 		}
 
 		/// <summary>Add an account</summary>
